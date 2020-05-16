@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+To-Do List
+{% endblock %}
+{% block content %}
+{% if  messages %}
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissable" role="alert">
+            <button class="close" data-dismiss='alert'>
+                <small><sup>x</sup></small>
+            </button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+    {% if all_items %}  <!-- all_items = variabel fungsi di views -->
+    <table class="table table-bordered">
+        {% for things in all_items %} <!-- seperti for x in y, things = x -->
+            {% if things.completed %} <!-- untuk list yg complete -->
+                <tr class="table-secondary ">
+                    <td class="striker"><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+                    <td><center><a href="{% url 'uncross' things.id %}">Belum</a></center></td>
+                    <td><center><a href="{% url 'delete' things.id %}">Hapus</a></center></td>
+                </tr> 
+                {% else %}   
+                <tr>
+                    <td><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+                    <td><center><a href="{% url 'cross_off' things.id %}">Selesai</a></center></td>
+                    <td><center><a href="{% url 'delete' things.id %}">Hapus</a></center></td>
+                </tr>   
+            {% endif %} 
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endblock %}
+
+
